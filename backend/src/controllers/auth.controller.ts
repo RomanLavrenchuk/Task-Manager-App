@@ -1,24 +1,12 @@
-import bcrypt from 'bcryptjs';
-import { prisma } from '../lib/prisma';
+import { Request, Response } from 'express';
+import { registerUser } from '../services/auth.service';
 
-export const signUp = async (email: string, password: string) => {
+export const register = async (req: Request, res: Response) => {
     try {
-        const existingUser = await prisma.user.findUnique({
-            where: { email: email },
-        });
-        if (existingUser) {
-            throw new Error('User already exist');
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const user = await prisma.user.create({
-            data: {
-                email,
-                password: hashedPassword,
-            },
-        });
-        return user;
+        const { email, password } = req.body;
+        const user = await registerUser(email, password);
+        res.status(201).json({ message: 'User registered successfully.', user });
     } catch (e: unknown) {
-        throw new Error('Something went wrong ' + (e as Error).message);
+        res.status(400).json({ message: (e as Error).message });
     }
 };
