@@ -15,7 +15,7 @@ export const middlewareVerify = async (
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET as string);
-        (req as any).user = payload;
+        (req as any).user = payload; //to the request i added user payload, for further usage userId
         next();
     } catch (error) {
         return res.status(401).json({ message: 'Invalid Token' });
