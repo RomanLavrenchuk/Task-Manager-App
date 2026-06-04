@@ -5,6 +5,7 @@ import {
     getAllTasksService,
     updateTaskService,
 } from '../services/task.service';
+import { taskSchema, updateTaskSchema } from '../validators/task.validator';
 
 export const getAllUsersTasksController = async (
     req: Request,
@@ -25,16 +26,23 @@ export const getAllUsersTasksController = async (
 
 export const newUserTaskController = async (req: Request, res: Response) => {
     const userId = (req as any).user.userId;
-    const { name, priority, dueDate } = req.body;
     try {
+        const taskDataValidation = taskSchema.safeParse(req.body);
+        if (!taskDataValidation.success) {
+            return res
+                .status(400)
+                .json({ message: taskDataValidation.error.issues });
+        }
+        const { name, priority, dueDate } = taskDataValidation.data;
+        const dueDateConverted = dueDate ? new Date(dueDate) : undefined; // zod return string, i converted into Date
         const createNewTask = await createTaskService(
             name,
             userId,
             priority,
-            dueDate,
+            dueDateConverted,
         );
         res.status(201).json({
-            message: 'Success user created',
+            message: 'Success task created',
             createNewTask,
         });
     } catch (e: unknown) {
@@ -46,13 +54,20 @@ export const newUserTaskController = async (req: Request, res: Response) => {
 
 export const updateTaskController = async (req: Request, res: Response) => {
     const id = req.params.id as string;
-    const { name, priority, dueDate } = req.body;
     try {
+        const updatedValidData = updateTaskSchema.safeParse(req.body);
+        if (!updatedValidData.success) {
+            return res
+                .status(400)
+                .json({ message: updatedValidData.error.issues });
+        }
+        const { name, priority, dueDate } = updatedValidData.data;
+        const dueDateConverted = dueDate ? new Date(dueDate) : undefined; // zod return string, i converted into Date
         const taskToUpdate = await updateTaskService(
             id,
             name,
             priority,
-            dueDate,
+            dueDateConverted,
         );
         res.status(200).json({
             message: 'Success task updated.',

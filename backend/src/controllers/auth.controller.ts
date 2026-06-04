@@ -1,9 +1,14 @@
 import { Request, Response } from 'express';
 import { loginUser, registerUser } from '../services/auth.service';
+import { loginSchema, registerSchema } from '../validators/auth.validator';
 
 export const register = async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
+        const validated = registerSchema.safeParse(req.body);
+        if (!validated.success) {
+            return res.status(400).json({ message: validated.error.issues });
+        }
+        const { email, password } = validated.data;
         const user = await registerUser(email, password);
         res.status(201).json({
             message: 'User registered successfully.',
@@ -16,7 +21,13 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
+        const validatedLoginData = loginSchema.safeParse(req.body);
+        if (!validatedLoginData.success) {
+            return res
+                .status(400)
+                .json({ message: validatedLoginData.error.issues });
+        }
+        const { email, password } = validatedLoginData.data;
         const user = await loginUser(email, password);
         res.status(200).json({
             message: 'User loggedIn successfully.',
