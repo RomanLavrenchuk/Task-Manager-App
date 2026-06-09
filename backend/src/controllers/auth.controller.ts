@@ -29,9 +29,16 @@ export const login = async (req: Request, res: Response) => {
         }
         const { email, password } = validatedLoginData.data;
         const user = await loginUser(email, password);
+        const { token, ...userWithoutToken } = user;
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            maxAge: 24 * 60 * 60 * 1000,
+        });
         res.status(200).json({
             message: 'User loggedIn successfully.',
-            user,
+            user: userWithoutToken,
         });
     } catch (e: unknown) {
         res.status(401).json({ message: (e as Error).message });

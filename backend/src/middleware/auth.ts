@@ -6,12 +6,11 @@ export const middlewareVerify = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const { authorization } = req.headers;
-    if (!authorization) {
+    const token = req.cookies.token;
+
+    if (!token) {
         return res.status(401).json({ message: 'No token provided!' });
     }
-
-    const token = authorization.split(' ')[1];
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET as string);

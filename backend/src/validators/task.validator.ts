@@ -10,7 +10,7 @@ export const updateTaskSchema = z.object({
     name: z
         .string()
         .min(2, 'Name must be at least 2 characters')
-        .max(15, 'Name must be less than 15 characters')
+        .max(50, 'Name must be less than 50 characters')
         .optional(),
     priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']).optional(),
     dueDate: z.string().datetime().optional(),
