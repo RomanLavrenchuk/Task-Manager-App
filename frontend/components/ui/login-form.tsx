@@ -1,11 +1,10 @@
 'use client';
 import { useContextHook } from '@/context/auth-context';
 import { loginUser } from '@/lib/api';
-import { loginSchema } from '@/lib/validators';
+import { LoginFormData, loginSchema } from '@/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import z from 'zod';
 
 export default function LoginForm() {
     const router = useRouter();
@@ -19,7 +18,7 @@ export default function LoginForm() {
         resolver: zodResolver(loginSchema),
     });
 
-    const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    const onSubmit = async (data: LoginFormData) => {
         try {
             const res = await loginUser(data.email, data.password);
             login(res.token, res.user);
