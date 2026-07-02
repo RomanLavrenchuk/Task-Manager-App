@@ -24,6 +24,7 @@ export const loginUser = async (email: string, password: string) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
+        credentials: 'include',
     });
     if (!request.ok) {
         throw new Error('Bad credentials');
