@@ -1,3 +1,5 @@
+import { getTasksServer } from '@/lib/api.server';
+
 export default function page() {
-    return <div>Dashboard</div>;
+    return getTasksServer();
 }
