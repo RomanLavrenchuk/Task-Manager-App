@@ -9,7 +9,6 @@ export default function TaskCard({ task }: TaskCardProps) {
         <div>
             <h4>{task.name}</h4>
             <p>{task.priority}</p>
-            <p>{task.status}</p>
             {task.dueDate && <p>Due: {task.dueDate.toString()}</p>}
         </div>
     );

@@ -14,6 +14,8 @@ export default function KanbanBoard({ tasks }: TasksProp) {
     );
     const doneTasks = tasks.filter((task) => task.status === Status.DONE);
 
+    console.log('tasks:', tasks);
+    console.log('todoTasks:', todoTasks);
     return (
         <div>
             <div>

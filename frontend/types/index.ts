@@ -1,14 +1,14 @@
 export enum Status {
-    TODO,
-    IN_PROGRESS,
-    DONE,
+    TODO = 'TODO',
+    IN_PROGRESS = 'IN_PROGRESS',
+    DONE = 'DONE',
 }
 
 export enum Priority {
-    LOW,
-    MEDIUM,
-    HIGH,
-    URGENT,
+    LOW = 'LOW',
+    MEDIUM = 'MEDIUM',
+    HIGH = 'HIGH',
+    URGENT = 'URGENT',
 }
 
 export type User = {
