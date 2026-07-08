@@ -2,12 +2,18 @@
 
 import { Status, Tasks } from '@/types';
 import TaskList from './task-list';
+import { useQuery } from '@tanstack/react-query';
+import { getTasks } from '@/lib/api';
 
-type TasksProp = {
-    tasks: Tasks[];
-};
+export default function KanbanBoard() {
+    const { data, isLoading } = useQuery({
+        queryKey: ['tasks'],
+        queryFn: getTasks,
+    });
+    const tasks: Tasks[] = data?.tasks ?? []; // if no data then empty array
 
-export default function KanbanBoard({ tasks }: TasksProp) {
+    if (isLoading) return <p>Loading...</p>;
+
     const todoTasks = tasks.filter((task) => task.status === Status.TODO);
     const inProgressTasks = tasks.filter(
         (task) => task.status === Status.IN_PROGRESS,
