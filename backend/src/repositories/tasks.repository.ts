@@ -1,4 +1,4 @@
-import { Priority } from '@prisma/client';
+import { Priority, Status } from '@prisma/client';
 import { prisma } from '../lib/prisma';
 
 export const getAllTasks = async (userId: string) => {
@@ -28,6 +28,7 @@ export const createTask = async (
 export const updateTask = async (
     id: string,
     name?: string,
+    status?: Status,
     priority?: Priority,
     dueDate?: Date,
 ) => {
@@ -35,6 +36,7 @@ export const updateTask = async (
         where: { id },
         data: {
             name,
+            status,
             priority,
             dueDate,
         },

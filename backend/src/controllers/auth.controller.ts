@@ -8,8 +8,8 @@ export const register = async (req: Request, res: Response) => {
         if (!validated.success) {
             return res.status(400).json({ message: validated.error.issues });
         }
-        const { email, password } = validated.data;
-        const user = await registerUser(email, password);
+        const { email, password, name } = validated.data;
+        const user = await registerUser(email, password, name);
         res.status(201).json({
             message: 'User registered successfully.',
             user,

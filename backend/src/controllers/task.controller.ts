@@ -61,11 +61,12 @@ export const updateTaskController = async (req: Request, res: Response) => {
                 .status(400)
                 .json({ message: updatedValidData.error.issues });
         }
-        const { name, priority, dueDate } = updatedValidData.data;
+        const { name, status, priority, dueDate } = updatedValidData.data;
         const dueDateConverted = dueDate ? new Date(dueDate) : undefined; // zod return string, i converted into Date
         const taskToUpdate = await updateTaskService(
             id,
             name,
+            status,
             priority,
             dueDateConverted,
         );

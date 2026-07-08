@@ -1,4 +1,4 @@
-import { Priority } from '@prisma/client';
+import { Priority, Status } from '@prisma/client';
 import {
     createTask,
     deleteTask,
@@ -30,10 +30,17 @@ export const createTaskService = async (
 export const updateTaskService = async (
     id: string,
     name?: string,
+    status?: Status,
     priority?: Priority,
     dueDate?: Date,
 ) => {
-    const updatedTaskData = await updateTask(id, name, priority, dueDate);
+    const updatedTaskData = await updateTask(
+        id,
+        name,
+        status,
+        priority,
+        dueDate,
+    );
     return updatedTaskData;
 };
 
