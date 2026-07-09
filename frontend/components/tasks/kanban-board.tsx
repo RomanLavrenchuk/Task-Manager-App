@@ -1,9 +1,10 @@
 'use client';
 
 import { Status, Tasks } from '@/types';
-import TaskList from './task-list';
 import { useQuery } from '@tanstack/react-query';
 import { getTasks } from '@/lib/api';
+import { DndContext } from '@dnd-kit/core';
+import KanbanColumn from './kanban-column';
 
 export default function KanbanBoard() {
     const { data, isLoading } = useQuery({
@@ -20,20 +21,32 @@ export default function KanbanBoard() {
     );
     const doneTasks = tasks.filter((task) => task.status === Status.DONE);
 
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+        if (!over) return;
+        console.log('Task:', active.id);
+        console.log('New column:', over.id);
+    };
+
     return (
-        <div>
+        <DndContext onDragEnd={handleDragEnd}>
             <div>
-                <h2>TODO</h2>
-                <TaskList tasks={todoTasks} />
+                <div>
+                    <h2>TODO</h2>
+                    <KanbanColumn id={Status.TODO} tasks={todoTasks} />
+                </div>
+                <div>
+                    <h2>IN PROGRESS</h2>
+                    <KanbanColumn
+                        id={Status.IN_PROGRESS}
+                        tasks={inProgressTasks}
+                    />
+                </div>
+                <div>
+                    <h2>DONE</h2>
+                    <KanbanColumn id={Status.DONE} tasks={doneTasks} />
+                </div>
             </div>
-            <div>
-                <h2>IN PROGRESS</h2>
-                <TaskList tasks={inProgressTasks} />
-            </div>
-            <div>
-                <h2>DONE</h2>
-                <TaskList tasks={doneTasks} />
-            </div>
-        </div>
+        </DndContext>
     );
 }
