@@ -1,3 +1,6 @@
+import { Status } from '@/types';
+import { useMutation } from '@tanstack/react-query';
+
 export const API_URL =
     process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
@@ -42,4 +45,19 @@ export const getTasks = async () => {
     }
     const data = await response.json();
     return data;
+};
+
+export const updateTask = async (id: string, data: { status: Status }) => {
+    const updateReq = await fetch(`${API_URL}/api/tasks/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(data),
+    });
+    if (!updateReq.ok) {
+        throw new Error('Failed to update task');
+    }
+    return updateReq.json();
 };
