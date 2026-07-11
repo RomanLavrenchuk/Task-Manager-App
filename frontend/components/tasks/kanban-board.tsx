@@ -22,6 +22,7 @@ export default function KanbanBoard() {
 
         onSuccess: () => {
             queryClient.invalidateQueries({
+                // update cash
                 queryKey: ['tasks'],
             });
         },
@@ -39,11 +40,8 @@ export default function KanbanBoard() {
         const { active, over } = event;
         if (!over) return;
 
-        console.log('active.id:', active.id); // ← id таску
-        console.log('over.id:', over.id);
         const taskId = active.id.toString();
         const newStatus = over.id as Status;
-        console.log('mutating with:', { taskId, newStatus }); // ← додай це
 
         mutation.mutate({
             id: taskId,

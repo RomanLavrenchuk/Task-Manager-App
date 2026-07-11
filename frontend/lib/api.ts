@@ -61,3 +61,18 @@ export const updateTask = async (id: string, data: { status: Status }) => {
     }
     return updateReq.json();
 };
+
+export const createTask = async (data: { name: string; priority: string }) => {
+    const createReq = await fetch(`${API_URL}/api/tasks`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(data),
+    });
+    if (!createReq.ok) {
+        throw new Error('Failed to create task');
+    }
+    return createReq.json();
+};

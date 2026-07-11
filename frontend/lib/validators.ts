@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-    email: z.email('Please enter a valid email address'),
+    email: z.string().email('Please enter a valid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
@@ -14,3 +14,12 @@ export const registerSchema = z.object({
 });
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
+
+export const taskSchema = z.object({
+    name: z.string().min(1, 'Task name is required'),
+    priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT'], {
+        error: 'Priority must be low, medium, or high',
+    }),
+});
+
+export type TaskFormData = z.infer<typeof taskSchema>;
