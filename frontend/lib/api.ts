@@ -47,7 +47,14 @@ export const getTasks = async () => {
     return data;
 };
 
-export const updateTask = async (id: string, data: { status: Status }) => {
+export const updateTask = async (
+    id: string,
+    data: {
+        status?: string;
+        name?: string;
+        priority?: string;
+    },
+) => {
     const updateReq = await fetch(`${API_URL}/api/tasks/${id}`, {
         method: 'PUT',
         headers: {

@@ -17,9 +17,16 @@ export type RegisterFormData = z.infer<typeof registerSchema>;
 
 export const taskSchema = z.object({
     name: z.string().min(1, 'Task name is required'),
+
     priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT'], {
-        error: 'Priority must be low, medium, or high',
+        error: 'Priority must be LOW, MEDIUM, HIGH, or URGENT',
     }),
+
+    status: z
+        .enum(['TODO', 'IN_PROGRESS', 'DONE'], {
+            error: 'Status must be TODO, IN_PROGRESS, or DONE',
+        })
+        .optional(),
 });
 
 export type TaskFormData = z.infer<typeof taskSchema>;
