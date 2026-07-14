@@ -3,10 +3,24 @@
 import { Status, Tasks } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getTasks, updateTask } from '@/lib/api';
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import {
+    DndContext,
+    DragEndEvent,
+    DragOverlay,
+    DragStartEvent,
+} from '@dnd-kit/core';
 import KanbanColumn from './kanban-column';
+import { useState } from 'react';
+import TaskCard from './task-card';
 
 export default function KanbanBoard() {
+    const [activeTask, setActiveTask] = useState<Tasks | null>(null);
+    //Drag start, task save in state
+    const handleDragStart = (event: DragStartEvent) => {
+        const task = tasks.find((t) => t.id === event.active.id);
+        setActiveTask(task ?? null);
+    };
+
     const { data, isLoading } = useQuery({
         queryKey: ['tasks'],
         queryFn: getTasks,
@@ -37,6 +51,7 @@ export default function KanbanBoard() {
     const doneTasks = tasks.filter((task) => task.status === Status.DONE);
 
     const handleDragEnd = (event: DragEndEvent) => {
+        setActiveTask(null);
         const { active, over } = event;
         if (!over) return;
 
@@ -50,7 +65,7 @@ export default function KanbanBoard() {
     };
 
     return (
-        <DndContext onDragEnd={handleDragEnd}>
+        <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <div className='grid grid-cols-3 gap-4 p-6'>
                 <div className='flex flex-col'>
                     <h2 className='text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wider flex items-center gap-2'>
@@ -77,6 +92,12 @@ export default function KanbanBoard() {
                     <KanbanColumn id={Status.DONE} tasks={doneTasks} />
                 </div>
             </div>
+            <DragOverlay>
+                {
+                    activeTask ? <TaskCard task={activeTask} /> : null
+                    //if is active task then show its copy
+                }
+            </DragOverlay>
         </DndContext>
     );
 }
