@@ -41,10 +41,13 @@ export default function TasksHeader() {
         mutation.mutate(data);
     };
     return (
-        <>
+        <div className='flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white'>
+            <h1 className='text-lg font-medium text-gray-900'>My Tasks</h1>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button>New Task</Button>
+                    <Button className='flex items-center gap-2 bg-indigo-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-indigo-700'>
+                        + New Task
+                    </Button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
@@ -53,18 +56,28 @@ export default function TasksHeader() {
 
                     <div>
                         <div>
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                            <form
+                                onSubmit={handleSubmit(onSubmit)}
+                                className='flex flex-col gap-3 mt-2'
+                            >
                                 {' '}
-                                <div>
-                                    <label htmlFor='name'>Task Name:</label>
-                                    <input {...register('name')} />
+                                <div className='flex flex-col gap-1'>
+                                    <label className='text-sm text-gray-600'>
+                                        Task Name:
+                                    </label>
+                                    <input
+                                        {...register('name')}
+                                        className='border border-gray-200 rounded px-3 py-2 text-sm'
+                                        placeholder='Enter task name'
+                                    />
                                     {errors.name && (
-                                        <p>{errors.name.message}</p>
+                                        <p className='text-xs text-red-500'>
+                                            {errors.name.message}
+                                        </p>
                                     )}
                                 </div>
-                                <div></div>
-                                <div>
-                                    <label htmlFor='priority'>
+                                <div className='flex flex-col gap-1'>
+                                    <label className='text-sm text-gray-600'>
                                         Task Priority:
                                     </label>
                                     <select {...register('priority')}>
@@ -74,15 +87,22 @@ export default function TasksHeader() {
                                         <option value='URGENT'>Urgent</option>
                                     </select>
                                     {errors.priority && (
-                                        <p>{errors.priority.message}</p>
+                                        <p className='text-xs text-red-500'>
+                                            {errors.priority.message}
+                                        </p>
                                     )}
                                 </div>
-                                <Button type='submit'>Submit</Button>
+                                <Button
+                                    type='submit'
+                                    className='bg-indigo-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-indigo-700 mt-2'
+                                >
+                                    Create task
+                                </Button>
                             </form>
                         </div>
                     </div>
                 </DialogContent>
             </Dialog>
-        </>
+        </div>
     );
 }

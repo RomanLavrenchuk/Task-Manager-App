@@ -3,9 +3,9 @@ import TasksHeader from '@/components/tasks/tasks-header';
 
 export default function Page() {
     return (
-        <>
-            <KanbanBoard />
+        <div className='min-h-screen bg-gray-50'>
             <TasksHeader />
-        </>
+            <KanbanBoard />
+        </div>
     );
 }

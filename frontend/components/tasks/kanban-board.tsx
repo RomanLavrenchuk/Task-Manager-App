@@ -51,38 +51,26 @@ export default function KanbanBoard() {
 
     return (
         <DndContext onDragEnd={handleDragEnd}>
-            <div style={{ display: 'flex', gap: '20px' }}>
-                <div
-                    style={{
-                        width: '300px',
-                        minHeight: '500px',
-                        background: 'lightblue',
-                    }}
-                >
-                    <h2>TODO</h2>
+            <div className='grid grid-cols-3 gap-4 p-4'>
+                <div className='flex flex-col'>
+                    <h2 className='text-sm font-medium text-gray-500 mb-3 uppercase tracking-wide'>
+                        TODO
+                    </h2>
                     <KanbanColumn id={Status.TODO} tasks={todoTasks} />
                 </div>
-                <div
-                    style={{
-                        width: '300px',
-                        minHeight: '500px',
-                        background: 'lightgreen',
-                    }}
-                >
-                    <h2>IN PROGRESS</h2>
+                <div className='flex flex-col'>
+                    <h2 className='text-sm font-medium text-gray-500 mb-3 uppercase tracking-wide'>
+                        IN PROGRESS
+                    </h2>
                     <KanbanColumn
                         id={Status.IN_PROGRESS}
                         tasks={inProgressTasks}
                     />
                 </div>
-                <div
-                    style={{
-                        width: '300px',
-                        minHeight: '500px',
-                        background: 'lightyellow',
-                    }}
-                >
-                    <h2>DONE</h2>
+                <div className='flex flex-col'>
+                    <h2 className='text-sm font-medium text-gray-500 mb-3 uppercase tracking-wide'>
+                        DONE
+                    </h2>
                     <KanbanColumn id={Status.DONE} tasks={doneTasks} />
                 </div>
             </div>
