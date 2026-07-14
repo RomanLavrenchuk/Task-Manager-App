@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import './styles/globals.css';
 import { Providers } from './providers';
 import AuthContext from '@/context/auth-context';
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { Geist } from 'next/font/google';
+import { cn } from '@/lib/utils';
+import Navbar from '@/components/layout/navbar';
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
     title: 'Task Manager App',
@@ -18,10 +19,13 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang='en' className={cn("font-sans", geist.variable)}>
-            <body className='min-h-full flex flex-col'>
+        <html lang='en' className={cn('font-sans', geist.variable)}>
+            <body className='min-h-screen bg-gray-100'>
                 <Providers>
-                    <AuthContext>{children}</AuthContext>
+                    <AuthContext>
+                        <Navbar />
+                        {children}
+                    </AuthContext>
                 </Providers>
             </body>
         </html>

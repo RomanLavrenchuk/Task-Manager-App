@@ -13,7 +13,10 @@ export default function KanbanColumn({ id, tasks }: TasksProp) {
         id: id,
     });
     return (
-        <div ref={setNodeRef} className='bg-gray-50 rounded-lg p-3 min-h-96'>
+        <div
+            ref={setNodeRef}
+            className='bg-white rounded-xl shadow-sm border border-gray-200 p-3 min-h-96'
+        >
             {tasks.map((task) => (
                 <TaskCard key={task.id} task={task} />
             ))}

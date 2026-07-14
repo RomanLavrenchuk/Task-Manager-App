@@ -51,15 +51,17 @@ export default function KanbanBoard() {
 
     return (
         <DndContext onDragEnd={handleDragEnd}>
-            <div className='grid grid-cols-3 gap-4 p-4'>
+            <div className='grid grid-cols-3 gap-4 p-6'>
                 <div className='flex flex-col'>
-                    <h2 className='text-sm font-medium text-gray-500 mb-3 uppercase tracking-wide'>
+                    <h2 className='text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wider flex items-center gap-2'>
+                        <span className='w-2 h-2 rounded-full bg-gray-400 inline-block'></span>
                         TODO
                     </h2>
                     <KanbanColumn id={Status.TODO} tasks={todoTasks} />
                 </div>
                 <div className='flex flex-col'>
-                    <h2 className='text-sm font-medium text-gray-500 mb-3 uppercase tracking-wide'>
+                    <h2 className='text-xs font-semibold text-blue-600 mb-3 uppercase tracking-wider flex items-center gap-2'>
+                        <span className='w-2 h-2 rounded-full bg-blue-500 inline-block'></span>
                         IN PROGRESS
                     </h2>
                     <KanbanColumn
@@ -68,7 +70,8 @@ export default function KanbanBoard() {
                     />
                 </div>
                 <div className='flex flex-col'>
-                    <h2 className='text-sm font-medium text-gray-500 mb-3 uppercase tracking-wide'>
+                    <h2 className='text-xs font-semibold text-green-600 mb-3 uppercase tracking-wider flex items-center gap-2'>
+                        <span className='w-2 h-2 rounded-full bg-green-500 inline-block'></span>
                         DONE
                     </h2>
                     <KanbanColumn id={Status.DONE} tasks={doneTasks} />
