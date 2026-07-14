@@ -1,6 +1,3 @@
-import { Status } from '@/types';
-import { useMutation } from '@tanstack/react-query';
-
 export const API_URL =
     process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
@@ -82,4 +79,15 @@ export const createTask = async (data: { name: string; priority: string }) => {
         throw new Error('Failed to create task');
     }
     return createReq.json();
+};
+
+export const deleteTask = async (id: string) => {
+    const deleteReq = await fetch(`${API_URL}/api/tasks/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+    });
+    if (!deleteReq.ok) {
+        throw new Error('Failed to delete task');
+    }
+    return deleteReq.json();
 };

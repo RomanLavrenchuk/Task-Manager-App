@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { taskSchema } from '@/lib/validators';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateTask } from '@/lib/api';
+import { deleteTask, updateTask } from '@/lib/api';
 import { z } from 'zod';
 
 type TaskCardProps = {
@@ -36,6 +36,7 @@ export default function TaskCard({ task }: TaskCardProps) {
         resolver: zodResolver(taskSchema),
     });
 
+    //edit mutation
     const mutation = useMutation({
         mutationFn: (data: {
             name: string;
@@ -46,6 +47,14 @@ export default function TaskCard({ task }: TaskCardProps) {
             queryClient.invalidateQueries({ queryKey: ['tasks'] });
             setOpen(false); // close modal
             reset(); // clear form
+        },
+    });
+
+    //delete mutation
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteTask(task.id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['tasks'] });
         },
     });
 
@@ -114,6 +123,11 @@ export default function TaskCard({ task }: TaskCardProps) {
                         </form>
                     </DialogContent>
                 </Dialog>
+                <div>
+                    <Button onClick={() => deleteMutation.mutate()}>
+                        Delete Task
+                    </Button>
+                </div>
             </div>
         </>
     );
