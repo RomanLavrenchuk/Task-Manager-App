@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteTask, updateTask } from '@/lib/api';
 import { z } from 'zod';
 import { priorityColors } from '@/lib/constants';
+import { toast } from 'sonner';
 
 type TaskCardProps = {
     task: Tasks;
@@ -44,7 +45,11 @@ export default function TaskCard({ task }: TaskCardProps) {
             priority: string;
             status?: string;
         }) => updateTask(task.id, data),
+        onError: () => {
+            toast.error('Failed to update task');
+        },
         onSuccess: () => {
+            toast.success('Task updated!');
             queryClient.invalidateQueries({ queryKey: ['tasks'] });
             setOpen(false); // close modal
             reset(); // clear form
@@ -54,7 +59,11 @@ export default function TaskCard({ task }: TaskCardProps) {
     //delete mutation
     const deleteMutation = useMutation({
         mutationFn: () => deleteTask(task.id),
+        onError: () => {
+            toast.error('Failed to delete task');
+        },
         onSuccess: () => {
+            toast.success('Task deleted!');
             queryClient.invalidateQueries({ queryKey: ['tasks'] });
         },
     });

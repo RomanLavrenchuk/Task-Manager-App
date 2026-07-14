@@ -14,6 +14,7 @@ import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createTask } from '@/lib/api';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function TasksHeader() {
     const queryClient = useQueryClient();
@@ -31,9 +32,13 @@ export default function TasksHeader() {
         mutationFn: (data: { name: string; priority: string }) =>
             createTask(data),
         onSuccess: () => {
+            toast.success('Task created!');
             queryClient.invalidateQueries({ queryKey: ['tasks'] });
             setOpen(false); // close modal
             reset(); // clear form
+        },
+        onError: () => {
+            toast.error('Something went wrong');
         },
     });
 

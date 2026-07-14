@@ -4,7 +4,7 @@ import { Providers } from './providers';
 import AuthContext from '@/context/auth-context';
 import { Geist } from 'next/font/google';
 import { cn } from '@/lib/utils';
-import Navbar from '@/components/layout/navbar';
+import { Toaster } from 'sonner';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -22,11 +22,9 @@ export default function RootLayout({
         <html lang='en' className={cn('font-sans', geist.variable)}>
             <body className='min-h-screen bg-gray-100'>
                 <Providers>
-                    <AuthContext>
-                        <Navbar />
-                        {children}
-                    </AuthContext>
+                    <AuthContext>{children}</AuthContext>
                 </Providers>
+                <Toaster position='top-right' />
             </body>
         </html>
     );
