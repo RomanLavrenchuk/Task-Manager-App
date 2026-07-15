@@ -11,7 +11,7 @@ export const getAllUsersTasksController = async (
     req: Request,
     res: Response,
 ) => {
-    const userId = (req as any).user.userId;
+    const userId = req.user!.userId;
     try {
         const allUserTasks = await getAllTasksService(userId);
         res.status(200).json({
@@ -25,7 +25,7 @@ export const getAllUsersTasksController = async (
 };
 
 export const newUserTaskController = async (req: Request, res: Response) => {
-    const userId = (req as any).user.userId;
+    const userId = req.user!.userId;
     try {
         const taskDataValidation = taskSchema.safeParse(req.body);
         if (!taskDataValidation.success) {
@@ -47,7 +47,7 @@ export const newUserTaskController = async (req: Request, res: Response) => {
         });
     } catch (e: unknown) {
         res.status(409).json({
-            message: 'User already exists',
+            message: 'Failed to create task',
         });
     }
 };

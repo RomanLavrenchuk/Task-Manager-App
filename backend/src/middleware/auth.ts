@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 export const middlewareVerify = async (
     req: Request,
@@ -14,7 +14,7 @@ export const middlewareVerify = async (
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET as string);
-        (req as any).user = payload; //to the request i added user payload, for further usage userId
+        req.user = payload as JwtPayload & { userId: string; email: string }; //to the request i added user payload, for further usage userId
         next();
     } catch (error) {
         return res.status(401).json({ message: 'Invalid Token' });
