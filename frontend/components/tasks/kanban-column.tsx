@@ -1,11 +1,11 @@
 'use client';
-import { Tasks } from '@/types';
+import { Tasks, Status } from '@/types';
 import { useDroppable } from '@dnd-kit/core';
 import TaskCard from './task-card';
 
 type TasksProp = {
     tasks: Tasks[];
-    id: string;
+    id: Status;
 };
 
 export default function KanbanColumn({ id, tasks }: TasksProp) {

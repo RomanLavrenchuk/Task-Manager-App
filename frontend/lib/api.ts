@@ -1,3 +1,5 @@
+import { Tasks, Status, Priority } from '@/types';
+
 export const API_URL =
     process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
@@ -5,7 +7,7 @@ export const registerUser = async (
     email: string,
     password: string,
     name?: string,
-) => {
+): Promise<{ message: string }> => {
     const request = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
@@ -19,7 +21,10 @@ export const registerUser = async (
     return request.json();
 };
 
-export const loginUser = async (email: string, password: string) => {
+export const loginUser = async (
+    email: string,
+    password: string,
+): Promise<{ message: string }> => {
     const request = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -29,29 +34,27 @@ export const loginUser = async (email: string, password: string) => {
     if (!request.ok) {
         throw new Error('Bad credentials');
     }
-    const data = await request.json();
-    return data;
+    return request.json();
 };
 
-export const getTasks = async () => {
+export const getTasks = async (): Promise<{ tasks: Tasks[] }> => {
     const response = await fetch(`${API_URL}/api/tasks`, {
         credentials: 'include',
     });
     if (!response.ok) {
         throw new Error('Failed to fetch tasks');
     }
-    const data = await response.json();
-    return data;
+    return response.json();
 };
 
 export const updateTask = async (
     id: string,
     data: {
-        status?: string;
+        status?: Status;
         name?: string;
-        priority?: string;
+        priority?: Priority;
     },
-) => {
+): Promise<{ message: string; taskToUpdate: Tasks }> => {
     const updateReq = await fetch(`${API_URL}/api/tasks/${id}`, {
         method: 'PUT',
         headers: {
@@ -66,7 +69,10 @@ export const updateTask = async (
     return updateReq.json();
 };
 
-export const createTask = async (data: { name: string; priority: string }) => {
+export const createTask = async (data: {
+    name: string;
+    priority: Priority;
+}): Promise<{ message: string; createNewTask: Tasks }> => {
     const createReq = await fetch(`${API_URL}/api/tasks`, {
         method: 'POST',
         headers: {
@@ -81,7 +87,9 @@ export const createTask = async (data: { name: string; priority: string }) => {
     return createReq.json();
 };
 
-export const deleteTask = async (id: string) => {
+export const deleteTask = async (
+    id: string,
+): Promise<{ message: string; taskForDelete: Tasks }> => {
     const deleteReq = await fetch(`${API_URL}/api/tasks/${id}`, {
         method: 'DELETE',
         credentials: 'include',

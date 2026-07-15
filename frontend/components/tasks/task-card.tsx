@@ -34,23 +34,23 @@ export default function TaskCard({ task }: TaskCardProps) {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm({
+    } = useForm<z.infer<typeof taskSchema>>({
         resolver: zodResolver(taskSchema),
     });
 
     //edit mutation
     const mutation = useMutation({
-        mutationFn: (data: {
-            name: string;
-            priority: string;
-            status?: string;
-        }) => updateTask(task.id, data),
+        mutationFn: (data: z.infer<typeof taskSchema>) =>
+            updateTask(task.id, data),
         onError: () => {
             toast.error('Failed to update task');
         },
         onSuccess: () => {
             toast.success('Task updated!');
-            queryClient.invalidateQueries({ queryKey: ['tasks'] });
+            queryClient.invalidateQueries({
+                queryKey: ['tasks'],
+                refetchType: 'all', // refetch all tasks after deletion immediately
+            });
             setOpen(false); // close modal
             reset(); // clear form
         },
@@ -64,7 +64,10 @@ export default function TaskCard({ task }: TaskCardProps) {
         },
         onSuccess: () => {
             toast.success('Task deleted!');
-            queryClient.invalidateQueries({ queryKey: ['tasks'] });
+            queryClient.invalidateQueries({
+                queryKey: ['tasks'],
+                refetchType: 'all', // refetch all tasks after deletion immediately
+            });
         },
     });
 

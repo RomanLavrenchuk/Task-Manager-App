@@ -24,13 +24,12 @@ export default function TasksHeader() {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm({
+    } = useForm<z.infer<typeof taskSchema>>({
         resolver: zodResolver(taskSchema),
     });
 
     const mutation = useMutation({
-        mutationFn: (data: { name: string; priority: string }) =>
-            createTask(data),
+        mutationFn: (data: z.infer<typeof taskSchema>) => createTask(data),
         onSuccess: () => {
             toast.success('Task created!');
             queryClient.invalidateQueries({ queryKey: ['tasks'] });
