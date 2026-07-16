@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts",
     "build": "echo DATABASE_URL=$DATABASE_URL && prisma generate && tsc",
-    "start": "node dist/index.js"
+    "start": "prisma migrate deploy && node dist/index.js"
   },
   "keywords": [],
   "author": "",
