@@ -15,7 +15,7 @@ export type Priority = (typeof Priority)[keyof typeof Priority];
 
 export type User = {
     id: string;
-    name?: string;
+    name?: string | null;
     email: string;
 };
 export type Tasks = {

@@ -24,7 +24,17 @@ export const registerUser = async (
 export const loginUser = async (
     email: string,
     password: string,
-): Promise<{ message: string }> => {
+): Promise<{
+    message: string;
+    user: {
+        message: string;
+        user: {
+            id: string;
+            email: string;
+            name: string | null;
+        };
+    };
+}> => {
     const request = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
