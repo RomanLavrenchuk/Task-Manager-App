@@ -8,7 +8,7 @@ export const registerUser = async (
     password: string,
     name?: string,
 ): Promise<{ message: string }> => {
-    const request = await fetch(`${API_URL}/api/auth/register`, {
+    const request = await fetch(`/api/auth/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export const loginUser = async (
         };
     };
 }> => {
-    const request = await fetch(`${API_URL}/api/auth/login`, {
+    const request = await fetch(`/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -48,7 +48,7 @@ export const loginUser = async (
 };
 
 export const getTasks = async (): Promise<{ tasks: Tasks[] }> => {
-    const response = await fetch(`${API_URL}/api/tasks`, {
+    const response = await fetch(`/api/tasks`, {
         credentials: 'include',
     });
     if (!response.ok) {
@@ -65,7 +65,7 @@ export const updateTask = async (
         priority?: Priority;
     },
 ): Promise<{ message: string; taskToUpdate: Tasks }> => {
-    const updateReq = await fetch(`${API_URL}/api/tasks/${id}`, {
+    const updateReq = await fetch(`/api/tasks/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export const createTask = async (data: {
     name: string;
     priority: Priority;
 }): Promise<{ message: string; createNewTask: Tasks }> => {
-    const createReq = await fetch(`${API_URL}/api/tasks`, {
+    const createReq = await fetch(`/api/tasks`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ export const createTask = async (data: {
 export const deleteTask = async (
     id: string,
 ): Promise<{ message: string; taskForDelete: Tasks }> => {
-    const deleteReq = await fetch(`${API_URL}/api/tasks/${id}`, {
+    const deleteReq = await fetch(`/api/tasks/${id}`, {
         method: 'DELETE',
         credentials: 'include',
     });
