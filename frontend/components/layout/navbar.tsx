@@ -41,13 +41,13 @@ export default function Navbar() {
             <div className='flex items-center gap-3'>
                 <div className='h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-sm font-medium text-indigo-700'>
                     {user?.name?.charAt(0).toUpperCase() ?? 'U'}
-                    <Button
-                        onClick={() => handleLogout()}
-                        className='text-sm text-gray-600 hover:text-red-600 transition-colors'
-                    >
-                        Log out
-                    </Button>
                 </div>
+                <Button
+                    onClick={() => handleLogout()}
+                    className='text-sm text-gray-500 hover:text-red-500 border border-gray-200 px-3 py-1 rounded-lg hover:border-red-200 transition-colors'
+                >
+                    Log out
+                </Button>
             </div>
         </nav>
     );
