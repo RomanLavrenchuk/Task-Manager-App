@@ -37,15 +37,17 @@ export default function Navbar() {
                 >
                     Tasks
                 </Link>
-                <Button
-                    onClick={() => handleLogout()}
-                    className='text-sm text-gray-600 hover:text-red-600 transition-colors'
-                >
-                    Log out
-                </Button>
             </div>
-            <div className='h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-sm font-medium text-indigo-700'>
-                {user?.name?.charAt(0).toUpperCase() ?? 'U'}
+            <div className='flex items-center gap-3'>
+                <div className='h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-sm font-medium text-indigo-700'>
+                    {user?.name?.charAt(0).toUpperCase() ?? 'U'}
+                    <Button
+                        onClick={() => handleLogout()}
+                        className='text-sm text-gray-600 hover:text-red-600 transition-colors'
+                    >
+                        Log out
+                    </Button>
+                </div>
             </div>
         </nav>
     );
