@@ -109,3 +109,14 @@ export const deleteTask = async (
     }
     return deleteReq.json();
 };
+
+export const logoutUser = async () => {
+    const request = await fetch(`/api/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+    });
+    if (!request.ok) {
+        throw new Error('Failed to logout');
+    }
+    return request.json();
+};
