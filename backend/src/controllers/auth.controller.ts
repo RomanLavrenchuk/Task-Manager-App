@@ -44,3 +44,15 @@ export const login = async (req: Request, res: Response) => {
         res.status(401).json({ message: (e as Error).message });
     }
 };
+export const logout = async (req: Request, res: Response) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+        });
+        res.status(200).json({ message: 'User logged out successfully.' });
+    } catch (e: unknown) {
+        res.status(400).json({ message: (e as Error).message });
+    }
+};
